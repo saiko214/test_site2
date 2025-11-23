@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Компьютерлік тест</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; background-color: #f5f5f5; }
+  .question { margin-bottom: 20px; }
+  .answers label { display: block; margin: 5px 0; }
+  button { padding: 10px 20px; margin-top: 10px; cursor: pointer; }
+  .result { margin-top: 30px; background-color: #fff; padding: 20px; border-radius: 8px; }
+</style>
+</head>
+<body>
+
+<h1>Компьютерлік тест</h1>
+<div id="quiz"></div>
+
+<script>
+const questions = [
+  {
+    q: "Операциялық жүйе деген не?",
+    options: [
+      "Компьютерді басқаруға арналған бағдарламалар кешені",
+      "Антивирустық бағдарлама",
+      "Веб-браузер",
+      "Ойын қосымшасы",
+      "Мәтінмен жұмыс істеуге арналған бағдарлама"
+    ],
+    answer: "A"
+  },
+  {
+    q: "Қуат көзі блогындағы кернеуді қандай құрылғы өлшейді?",
+    options: ["Амперметр","Барометр","Мультиметр","Термометр","Тестер"],
+    answer: "C"
+  },
+  {
+    q: "Перифериялық құрылғы деген не?",
+    options: ["Жүйелік блоктың ішінде орналасқан құрылғы","Компьютерді басқару бағдарламасы","Компьютерге қосылатын сыртқы құрылғы","Операциялық жүйе","Желі хаттамасы"],
+    answer: "C"
+  },
+  {
+    q: "Командалық жолда желі конфигурациясын көрсететін команда?",
+    options: ["del","dir","ipconfig","copy","format"],
+    answer: "C"
+  },
+  {
+    q: "Термопаста деген не?",
+    options: ["Аналық платаға арналған қорғаныс қабаты","Желдеткіштерге арналған майлау","Корпусқа арналған бояу","ПК компоненттеріне арналған желім","Процессор мен радиатор арасындағы жылуөткізгіш зат"],
+    answer: "E"
+  },
+  {
+    q: "Арифметикалық және логикалық операцияларды орындауға жауапты компонент?",
+    options: ["Орталық процессор","Аналық плата","Жедел жад","Қатты диск","Қуат көзі"],
+    answer: "A"
+  },
+  {
+    q: "BIOS деген не?",
+    options: ["Мәтінді өңдеуге арналған бағдарлама","Негізгі енгізу/шығару жүйесі","Антивирус","Құрылғы драйвері","Операциялық жүйе"],
+    answer: "B"
+  },
+  {
+    q: "Қазіргі қатты дискілер қандай қосқыш арқылы қосылады?",
+    options: ["IDE","SATA","VGA","COM","PS/2"],
+    answer: "B"
+  },
+  {
+    q: "Жедел жад (RAM) деген не?",
+    options: ["Бейнеқартаның жады","Бағдарламалардың жұмыс істеуіне арналған уақытша жад","Деректерді тұрақты сақтауға арналған жад","Виртуалды жад","Процессордың кэш-жад"],
+    answer: "B"
+  },
+  {
+    q: "Қазіргі Wi-Fi желілерінде қолданылатын сымсыз байланыс стандарты?",
+    options: ["Bluetooth","USB","IEEE 802.11","Ethernet","Infrared"],
+    answer: "C"
+  },
+  {
+    q: "USB аббревиатурасы нені білдіреді?",
+    options: ["Unique System Bus","Universal Serial Bus","Unified Serial Bus","Universal System Bus","Universal Storage Bus"],
+    answer: "B"
+  },
+  {
+    q: "Windows 10/11 жүйесінде әдетте қолданылатын файлдық жүйе?",
+    options: ["ext4","NTFS","FAT32","HFS+","exFAT"],
+    answer: "B"
+  },
+  {
+    q: "Процессор сокеті деген не?",
+    options: ["USB порты","Процессорды аналық платаға орнататын ұяшық","Видеокарта слоты","Жедел жад ұясы","Қуат қосқышы"],
+    answer: "B"
+  },
+  {
+    q: "Қазіргі SSD дисктері қандай интерфейс арқылы қосылады?",
+    options: ["IDE","PCI","M.2 немесе SATA","ISA","AGP"],
+    answer: "C"
+  },
+  {
+    q: "Компьютер жүктелген кезде POST деген не?",
+    options: ["Электрондық пошта бағдарламасы","Антивирустық тексеріс","Қосу кезіндегі өзін-өзі тексеру","Құрылғы драйвері","Операциялық жүйе"],
+    answer: "C"
+  },
+  {
+    q: "Бір USB-контроллерге ең көп қанша құрылғы қосуға болады?",
+    options: ["255","63","127","Шексіз","10"],
+    answer: "C"
+  },
+  {
+    q: "Аналық платаның чипсеті деген не?",
+    options: ["Процессор","Компоненттерді басқаруға арналған микросхемалар жиынтығы","Видеокарта","Жедел жад","Қуат көзі"],
+    answer: "B"
+  },
+  {
+    q: "Жоғары ажыратымдылықты қолдайтын мониторларды қосуға арналған қосқыш?",
+    options: ["DisplayPort немесе HDMI","Composite","DVI-D","VGA","S-Video"],
+    answer: "A"
+  },
+  {
+    q: "Корпустың форм-факторы деген не?",
+    options: ["Корпустың салмағы","Түсі","Материалы","Желдеткіш саны","Корпустың өлшемі мен құрылымының стандарты"],
+    answer: "E"
+  },
+  {
+    q: "Windows жүйесінде жүйе туралы ақпаратты көрсететін утилита?",
+    options: ["diskmgmt.msc","regedit","cmd","services.msc","msinfo32"],
+    answer: "E"
+  },
+  {
+    q: "UEFI деген не?",
+    options: ["Деректерді жіберу хаттамасы","Файлдық жүйе","BIOS-тың заманауи түрі","Операциялық жүйе","Процессор түрі"],
+    answer: "C"
+  },
+  {
+    q: "Аналық платаға негізгі қуат қосқышы арқылы қандай кернеулер беріледі?",
+    options: ["Тек 5V","110V","12V, 5V, 3.3V","24V","220V"],
+    answer: "C"
+  },
+  {
+    q: "Интеграцияланған графика деген не?",
+    options: ["Процессорға кірістірілген графикалық ядро","Сурет салу бағдарламасы","Бөлек видеокарта","Ойын консолі","Монитор"],
+    answer: "A"
+  },
+  {
+    q: "Қазіргі Intel процессорлары үшін қолданылатын қуат қосқышының стандарты?",
+    options: ["SATA","6-pin","24-pin","4-pin","8-pin (4+4)"],
+    answer: "E"
+  },
+  {
+    q: "Компьютердің 'суық іске қосылуы' дегеніміз не?",
+    options: ["Салқындату жүйесінің жұмысы","Қауіпсіз режим","Суық бөлмеде қосу","Қуат толық өшірілгеннен кейін қосу","Гибернация режимі"],
+    answer: "D"
+  },
+  {
+    q: "Мониторда бейненің шықпауына не себеп болуы мүмкін?",
+    options: ["Принтердің ажыратылуы","Видеокартаның ақауы","CMOS батареясының әлсіз заряды","Дыбыстық картаның ақауы","Пернетақтаның бұзылуы"],
+    answer: "B"
+  },
+  {
+    q: "Қатты дискіні диагностикалауға қандай құрал қолданылады?",
+    options: ["Calculator","CrystalDiskInfo","Paint","Task Manager","Notepad"],
+    answer: "B"
+  },
+  {
+    q: "Аналық платадағы POST-код нені білдіреді?",
+    options: ["Жүйе температурасы","Процессор моделі","Windows активация коды","Платаның сериялық нөмірі","Жүктеу кезіндегі өзін-өзі тексеру коды"],
+    answer: "E"
+  },
+  {
+    q: "Жедел жадты тексеруге арналған утилита?",
+    options: ["CPU-Z","HWMonitor","Speccy","GPU-Z","MemTest86"],
+    answer: "E"
+  },
+  {
+    q: "SMART-мониторинг деген не?",
+    options: ["Температураны бақылау","Драйверлерді тексеру","Процессор жұмысын бақылау","Желі трафигін бақылау","Қатты дисктің өзін-өзі диагностикалау жүйесі"],
+    answer: "E"
+  }
+];
+
+let current = 0;
+let userAnswers = [];
+
+function showQuestion() {
+  if(current >= questions.length){
+    showResult();
+    return;
+  }
+  
+  const q = questions[current];
+  let html = `<div class="question"><h2>Сұрақ ${current+1}: ${q.q}</h2><div class="answers">`;
+  const opts = ["A","B","C","D","E"];
+  for(let i=0;i<q.options.length;i++){
+    html += `<label><input type="radio" name="answer" value="${opts[i]}"> ${opts[i]}) ${q.options[i]}</label>`;
+  }
+  html += `</div><button onclick="nextQuestion()">Келесі</button></div>`;
+  
+  document.getElementById("quiz").innerHTML = html;
+}
+
+function nextQuestion(){
+  const radios = document.getElementsByName("answer");
+  let selected = null;
+  for(const r of radios){
+    if(r.checked){ selected = r.value; break; }
+  }
+  if(!selected){
+    alert("Жауабыңызды таңдаңыз!");
+    return;
+  }
+  userAnswers.push(selected);
+  current++;
+  showQuestion();
+}
+
+function showResult(){
+  let correctCount = 0;
+  let wrongList = [];
+  
+  for(let i=0;i<questions.length;i++){
+    if(userAnswers[i] === questions[i].answer){
+      correctCount++;
+    } else {
+      wrongList.push({question: questions[i].q, yourAnswer: userAnswers[i], correctAnswer: questions[i].answer});
+    }
+  }
+  
+  const percent = ((correctCount/questions.length)*100).toFixed(2);
+  
+  let html = `<div class="result"><h2>Нәтиже:</h2>`;
+  html += `<p>Дұрыс жауаптар: ${correctCount} / ${questions.length}</p>`;
+  html += `<p>Пайыз: ${percent}%</p>`;
+  
+  if(wrongList.length > 0){
+    html += `<h3>Қате жауаптар:</h3><ul>`;
+    wrongList.forEach(w => {
+      html += `<li><b>Сұрақ:</b> ${w.question}<br><b>Сіздің жауабыңыз:</b> ${w.yourAnswer}<br><b>Дұрыс жауабы:</b> ${w.correctAnswer}</li>`;
+    });
+    html += `</ul>`;
+  }
+  
+  html += `</div>`;
+  document.getElementById("quiz").innerHTML = html;
+}
+
+showQuestion();
+</script>
+</body>
+</html>
